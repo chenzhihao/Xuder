@@ -1,5 +1,5 @@
 import test from 'ava'
-import {combineReducers} from '../src/index'
+import combineReducers from '../src/combineReducers'
 
 test('basic reducer combination, ignore action', t => {
   let reducer1 = function (state = {}, action) {
