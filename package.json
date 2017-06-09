@@ -4,7 +4,9 @@
   "description": "Build on the simplicity of Redux. A predicable state container.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard --fix",
+    "test": "ava --tap",
+    "watch": "ava --tap -watch"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,29 @@
   "bugs": {
     "url": "https://github.com/chenzhihao/Xuder/issues"
   },
-  "homepage": "https://github.com/chenzhihao/Xuder#readme"
+  "homepage": "https://github.com/chenzhihao/Xuder#readme",
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "babel-register": "^6.24.1",
+    "babel-runtime": "^6.23.0",
+    "standard": "^10.0.2"
+  },
+  "ava": {
+    "files": [
+      "test/*.js"
+    ],
+    "source": [
+      "src/*.js"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "tap": true,
+    "powerAssert": true,
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  }
 }
