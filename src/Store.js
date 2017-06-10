@@ -12,21 +12,23 @@ export default class Store {
   }
 
   dispatch (action) {
+    const me = this
     this.state = this.reducer(this.state, action)
 
     this
       .subscribers
-      .forEach(({listener, mapStateToProps = noop, mapDispatchToProps = noop}) => {
-        const stateProps = mapStateToProps(this.state) || {}
-        const dispatchProps = mapDispatchToProps(this.dispatch) || {}
+      .forEach(function ({listener, mapStateToProps = noop, mapDispatchToProps = noop}) {
+        const stateProps = mapStateToProps(me.state) || {}
+        const dispatchProps = mapDispatchToProps(me.dispatch.bind(me)) || {}
         listener(Object.assign({}, stateProps, dispatchProps))
       })
   }
 
   subscribe (mapStateToProps, mapDispatchToProps) {
-    return listener => {
+    const me = this
+    return function (listener) {
       const subscriber = {listener, mapStateToProps, mapDispatchToProps}
-      this.subscribers = this
+      me.subscribers = me
         .subscribers
         .concat(subscriber)
 
