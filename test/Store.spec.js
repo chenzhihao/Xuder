@@ -33,29 +33,64 @@ const reducer = combineReducer({
   animal: animalReducer,
 })
 
-test('Store can build initial states shape from reducer', t => {
+test('Store can build initial state shape from reducer', t => {
   const store = new Store(reducer)
-  t.deepEqual(store.getStates(), {fruit: 'cherry', animal: 'donkey'})
+  t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'donkey'})
 })
 
-test('Store can update states from action', t => {
+test('Store can update state from action', t => {
   const store = new Store(reducer)
   store.dispatch({type: 'dog'})
-  t.deepEqual(store.getStates(), {fruit: 'cherry', animal: 'dog'})
+  t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'dog'})
 
   store.dispatch({type: 'UNKNOWN_TYPE'})
-  t.deepEqual(store.getStates(), {fruit: 'cherry', animal: 'dog'})
+  t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'dog'})
 
   store.dispatch({type: 'banana'})
-  t.deepEqual(store.getStates(), {fruit: 'banana', animal: 'dog'})
+  t.deepEqual(store.getState(), {fruit: 'banana', animal: 'dog'})
 })
 
 test.cb('Store can do broadcast when there is an action', t => {
   const store = new Store(reducer)
-  store.subscribe(function () {
-    t.deepEqual(store.getStates(), {fruit: 'cherry', animal: 'dog'})
+  store.subscribe()(function () {
+    t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'dog'})
     t.end()
-  });
+  })
   store.dispatch({type: 'dog'})
 })
 
+test.cb('Store can can connect to a listener', t => {
+  const store = new Store(reducer)
+
+  function mapStateToProps (state) {
+    return {favoriteAnimal: state.animal}
+  }
+
+  function listener (props) {
+    t.is(props.favoriteAnimal, 'dog')
+    t.end()
+  }
+
+  store.subscribe(mapStateToProps)(listener)
+  store.dispatch({type: 'dog'})
+})
+
+test('Store can can disconnect to a listener', t => {
+  let called = false
+
+  const store = new Store(reducer)
+
+  function mapStateToProps (state) {
+    return {favoriteAnimal: state.animal}
+  }
+
+  function listener (props) {
+    called = true
+  }
+
+  const unsubscribe = store.subscribe(mapStateToProps)(listener)
+  unsubscribe()
+
+  store.dispatch({type: 'dog'})
+  t.is(called, false)
+})
