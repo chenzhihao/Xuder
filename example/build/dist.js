@@ -22,6 +22,7 @@ class DeviceView extends View {
     this.store = options.store;
     this.shallowCompare = options.shallowCompare;
 
+    // connect to store
     function mapStateToProps (state) {
       return {devices: state.devices, favorites: state.favorites}
     }
@@ -83,7 +84,7 @@ class DeviceView extends View {
   }
 }
 
-class DeviceView$1 extends View {
+class FavoritesView extends View {
   constructor (options) {
     super(options);
     this.store = options.store;
@@ -162,7 +163,7 @@ const deviceView = new DeviceView({
 });
 deviceView.render();
 
-const favoritesView = new DeviceView$1({
+const favoritesView = new FavoritesView({
   $el: document.querySelector('.like-counting'),
   store,
   shallowCompare

@@ -1,5 +1,5 @@
 import View from './View'
-export default class DeviceView extends View {
+export default class FavoritesView extends View {
   constructor (options) {
     super(options)
     this.store = options.store
