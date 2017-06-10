@@ -30,7 +30,7 @@ const animalReducer = function (state = 'donkey', action) {
 
 const reducer = combineReducer({
   fruit: fruitReducer,
-  animal: animalReducer,
+  animal: animalReducer
 })
 
 test('Store can build initial state shape from reducer', t => {

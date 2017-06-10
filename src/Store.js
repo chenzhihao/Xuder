@@ -1,8 +1,8 @@
+import {noop} from './utils'
+
 export const ActionTypes = {
   INIT: '@@xuder/INIT'
 }
-
-import {noop} from './utils'
 
 export default class Store {
   constructor (reducer) {
@@ -12,8 +12,6 @@ export default class Store {
   }
 
   dispatch (action) {
-    // or keep it as immutable
-
     this.state = this.reducer(this.state, action)
 
     this
@@ -41,6 +39,6 @@ export default class Store {
   }
 
   getState () {
-    return this.state;
+    return this.state
   }
 }
