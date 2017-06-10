@@ -49,9 +49,10 @@ class Store {
     this.reducer = reducer;
     this.state = reducer({}, {type: ActionTypes.INIT});
     this.subscribers = [];
+    this.dispatch =  this._dispatch.bind(this);
   }
 
-  dispatch (action) {
+  _dispatch (action) {
     const me = this;
     this.state = this.reducer(this.state, action);
 
@@ -59,7 +60,7 @@ class Store {
       .subscribers
       .forEach(function ({listener, mapStateToProps = noop, mapDispatchToProps = noop}) {
         const stateProps = mapStateToProps(me.state) || {};
-        const dispatchProps = mapDispatchToProps(me.dispatch.bind(me)) || {};
+        const dispatchProps = mapDispatchToProps(me.dispatch) || {};
         listener(Object.assign({}, stateProps, dispatchProps));
       });
   }
