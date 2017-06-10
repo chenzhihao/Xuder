@@ -3,7 +3,7 @@ Build on the simplicity of Redux. A predicable state container.
 
 ## Usage
 
-#### Build Reducers is as same as the Redux usage:
+### Build Reducers is as same as the Redux usage:
 ```javascript
 const fruitReducer = function (state = 'cherry', action) {
   switch (action.type) {
@@ -37,17 +37,18 @@ const reducer = combineReducer({
 })
 ```
 
-#### Create Store:
+### Create Store:
 ###### todo: middleware mechanism
 
 ```javascript
   const store = new Store(reducer)
   // Store will get the initial state from reducers
-  t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'donkey'})
+  //{fruit: 'cherry', animal: 'donkey'})
+  store.getState()
 ```
 
 
-#### How to subscribe a Store:
+### How to subscribe a Store:
 
 ```javascript
   const unsubscribe = store.subscribe(mapStateToProps, mapDispatchToProps)(function ({...stateProps, ...dispatchProps}) {
