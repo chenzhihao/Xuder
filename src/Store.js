@@ -1,5 +1,3 @@
-import {noop} from './utils'
-
 export const ActionTypes = {
   INIT: '@@xuder/INIT'
 }
@@ -7,9 +5,10 @@ export const ActionTypes = {
 export default class Store {
   constructor (reducer) {
     this.reducer = reducer
-    this.state = reducer({}, {type: ActionTypes.INIT})
+    this.state = {}
     this.subscribers = []
     this.dispatch = this._dispatch.bind(this)
+    this.dispatch(ActionTypes.INIT)
   }
 
   _dispatch (action) {
