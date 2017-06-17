@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Build on the simplicity of Redux. A predicable state container.",
   "main": "index.js",
+  "engines": {
+    "node": ">= 6"
+  },
   "scripts": {
     "lint": "standard --fix",
     "test": "ava --tap",
