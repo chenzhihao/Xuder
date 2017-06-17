@@ -11,6 +11,7 @@
     "test": "ava --tap",
     "watch": "ava --tap -watch",
     "cover": "nyc npm run test",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "build": "rollup  --sourcemap --input ./src/index.js --format umd --name 'xuder' --output ./build/xuder.js",
     "build-example": "rollup  --sourcemap --input ./example/src/index.js --format iife --output  ./example/build/dist.js"
   },

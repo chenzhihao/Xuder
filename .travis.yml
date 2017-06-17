@@ -4,7 +4,5 @@ node_js:
   - "6"
 install:
   - npm install
-script:
-  - npm test
-  - npm cover
-after_success: ./node_modules/.bin/codecov --file=./coverage/lcov.info
+  - npm install -g codecov
+after_success: npm run report-coverage
