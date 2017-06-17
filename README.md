@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/chenzhihao/Xuder.svg?branch=master)](https://travis-ci.org/chenzhihao/Xuder)
+[![codecov](https://codecov.io/gh/chenzhihao/Xuder/branch/master/graph/badge.svg)](https://codecov.io/gh/chenzhihao/Xuder)
+
 # Xuder
 Build on the simplicity of Redux. A predicable state container.
 
