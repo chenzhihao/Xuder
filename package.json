@@ -10,7 +10,7 @@
     "lint": "standard --fix",
     "test": "ava --tap",
     "watch": "ava --tap -watch",
-    "coverage": "nyc npm run test",
+    "cover": "nyc npm run test",
     "build": "rollup  --sourcemap --input ./src/index.js --format umd --name 'xuder' --output ./build/xuder.js",
     "build-example": "rollup  --sourcemap --input ./example/src/index.js --format iife --output  ./example/build/dist.js"
   },
@@ -35,6 +35,7 @@
     "babel-preset-env": "^1.5.2",
     "babel-register": "^6.24.1",
     "babel-runtime": "^6.23.0",
+    "codecov": "^2.2.0",
     "nyc": "^11.0.2",
     "rollup": "^0.42.0",
     "rollup-watch": "^4.0.0",
