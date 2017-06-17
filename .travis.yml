@@ -6,4 +6,5 @@ install:
   - npm install
 script:
   - npm test
+  - npm cover
 after_success: ./node_modules/.bin/codecov --file=./coverage/lcov.info
