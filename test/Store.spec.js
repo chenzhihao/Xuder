@@ -38,6 +38,11 @@ test('Store can build initial state shape from reducer', t => {
   t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'donkey'})
 })
 
+test('Store can build initial state shape from constructor', t => {
+  const store = new Store(reducer, {fruit: 'orange', animal: 'wombat'})
+  t.deepEqual(store.getState(), {fruit: 'orange', animal: 'wombat'})
+})
+
 test('Store can update state from action', t => {
   const store = new Store(reducer)
   store.dispatch({type: 'dog'})
@@ -48,6 +53,15 @@ test('Store can update state from action', t => {
 
   store.dispatch({type: 'banana'})
   t.deepEqual(store.getState(), {fruit: 'banana', animal: 'dog'})
+})
+
+test('Action dispatched by Store must be an object with "type" field as string', t => {
+  const store = new Store(reducer)
+  const error = t.throws(() => {
+    store.dispatch()
+  })
+
+  t.is(error.message, 'action should be an object with "type" filed as string')
 })
 
 test.cb('Store can do broadcast when there is an action', t => {

@@ -1,17 +1,23 @@
+import {isObject, isString} from './utils'
+
 export const ActionTypes = {
   INIT: '@@xuder/INIT'
 }
 
 export default class Store {
-  constructor (reducer) {
+  constructor (reducer, initalState = {}) {
     this.reducer = reducer
-    this.state = {}
+    this.state = initalState
     this.subscribers = []
     this.dispatch = this._dispatch.bind(this)
-    this.dispatch(ActionTypes.INIT)
+    this.dispatch({type: ActionTypes.INIT})
   }
 
   _dispatch (action) {
+    if (!isObject(action) || !isString(action.type)) {
+      throw new Error('action should be an object with "type" filed as string')
+    }
+
     this.state = this.reducer(this.state, action)
 
     this
