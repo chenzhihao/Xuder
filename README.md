@@ -51,21 +51,18 @@ const reducer = combineReducer({
 ### How to subscribe a Store:
 
 ```javascript
-  const unsubscribe = store.subscribe(mapStateToProps, mapDispatchToProps)(function ({...stateProps, ...dispatchProps}) {
+  const unsubscribe = store.subscribe(function () {
     ...
   })
   
   
   // A simple Example:
-  function mapStateToProps (state) {
-    return {favoriteAnimal: state.animal}
-  }
-  
-  function listener (props) {
-    console.log(props.favoriteAnimal)
+
+  function listener () {
+    console.log(store.getState().animal)
   }
 
-  store.subscribe(mapStateToProps)(listener)
+  store.subscribe(listener)
   store.dispatch({type: 'dog'})
   
   // will console.log('dog')

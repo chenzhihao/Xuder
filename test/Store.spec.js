@@ -52,52 +52,23 @@ test('Store can update state from action', t => {
 
 test.cb('Store can do broadcast when there is an action', t => {
   const store = new Store(reducer)
-  store.subscribe()(function () {
+  store.subscribe(function () {
     t.deepEqual(store.getState(), {fruit: 'cherry', animal: 'dog'})
     t.end()
   })
   store.dispatch({type: 'dog'})
 })
 
-test.cb('Store can can connect to a listener, use mapStateToProps', t => {
+test.cb('Store can can connect to a listener', t => {
   const store = new Store(reducer)
 
-  function mapStateToProps (state) {
-    return {favoriteAnimal: state.animal}
-  }
-
-  function listener (props) {
-    t.is(props.favoriteAnimal, 'dog')
+  function listener () {
+    t.is(store.getState().animal, 'dog')
     t.end()
   }
 
-  store.subscribe(mapStateToProps)(listener)
+  store.subscribe(listener)
   store.dispatch({type: 'dog'})
-})
-
-test.cb('Store can can connect to a listener, use mapDispatchToProps', t => {
-  const store = new Store(reducer)
-
-  function mapStateToProps (state) {
-    return {favoriteAnimal: state.animal}
-  }
-
-  function mapDispatchToProps (dispatch) {
-    return {
-      dogAction: () => dispatch({type: 'dog'})
-    }
-  }
-
-  const actions = mapDispatchToProps(store.dispatch)
-
-  function listener (props) {
-    t.is(props.favoriteAnimal, 'dog')
-    t.is(typeof props.dogAction, 'function')
-    t.end()
-  }
-
-  store.subscribe(mapStateToProps, mapDispatchToProps)(listener)
-  actions.dogAction()
 })
 
 test('Store can can disconnect to a listener', t => {
@@ -105,15 +76,11 @@ test('Store can can disconnect to a listener', t => {
 
   const store = new Store(reducer)
 
-  function mapStateToProps (state) {
-    return {favoriteAnimal: state.animal}
-  }
-
-  function listener (props) {
+  function listener () {
     called = true
   }
 
-  const unsubscribe = store.subscribe(mapStateToProps)(listener)
+  const unsubscribe = store.subscribe(listener)
   unsubscribe()
 
   store.dispatch({type: 'dog'})
