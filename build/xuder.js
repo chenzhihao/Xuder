@@ -16,7 +16,12 @@ function combineReducers (reducersMap) {
   }
 }
 
-function noop () {
+function isObject (obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+function isString (str) {
+  return Object.prototype.toString.call(str) === '[object String]'
 }
 
 /**
@@ -45,39 +50,36 @@ const ActionTypes = {
 };
 
 class Store {
-  constructor (reducer) {
+  constructor (reducer, initalState = {}) {
     this.reducer = reducer;
-    this.state = reducer({}, {type: ActionTypes.INIT});
+    this.state = initalState;
     this.subscribers = [];
-    this.dispatch =  this._dispatch.bind(this);
+    this.dispatch = this._dispatch.bind(this);
+    this.dispatch({type: ActionTypes.INIT});
   }
 
   _dispatch (action) {
-    const me = this;
+    if (!isObject(action) || !isString(action.type)) {
+      throw new Error('action should be an object with "type" filed as string')
+    }
+
     this.state = this.reducer(this.state, action);
 
     this
       .subscribers
-      .forEach(function ({listener, mapStateToProps = noop, mapDispatchToProps = noop}) {
-        const stateProps = mapStateToProps(me.state) || {};
-        const dispatchProps = mapDispatchToProps(me.dispatch) || {};
-        listener(Object.assign({}, stateProps, dispatchProps));
-      });
+      .forEach(subscriber => subscriber());
   }
 
-  subscribe (mapStateToProps, mapDispatchToProps) {
+  subscribe (subscriber) {
     const me = this;
-    return function (listener) {
-      const subscriber = {listener, mapStateToProps, mapDispatchToProps};
-      me.subscribers = me
-        .subscribers
-        .concat(subscriber);
+    me.subscribers = me
+      .subscribers
+      .concat(subscriber);
 
-      // unsubscribe
-      return () => {
-        const index = this.subscribers.indexOf(listener);
-        this.subscribers.splice(index, 1);
-      }
+    // unsubscribe
+    return () => {
+      const index = me.subscribers.indexOf(subscriber);
+      me.subscribers.splice(index, 1);
     }
   }
 
