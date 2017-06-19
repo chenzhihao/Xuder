@@ -1,14 +1,4 @@
-function compose (...funcs) {
-  if (funcs.length === 0) {
-    return arg => arg
-  }
-
-  if (funcs.length === 1) {
-    return funcs[0]
-  }
-
-  return funcs.reduce((a, b) => (...args) => a(b(...args)))
-}
+import {compose} from './utils'
 
 export default function applyMiddleware (...middlewares) {
   return (createStore) => (reducer, preloadedState, enhancer) => {
@@ -20,6 +10,8 @@ export default function applyMiddleware (...middlewares) {
       getState: store.getState,
       dispatch: (action) => dispatch(action)
     }
+
+    // each middleware is like store=> dispatch => action => {...}
     chain = middlewares.map(middleware => middleware(middlewareAPI))
     dispatch = compose(...chain)(store.dispatch)
 
