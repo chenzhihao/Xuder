@@ -5,15 +5,21 @@ export const ActionTypes = {
 }
 
 export default class Store {
-  constructor (reducer, initalState = {}) {
+  constructor (reducer, initialState = {}) {
     this.reducer = reducer
-    this.state = initalState
+    this.state = initialState
     this.subscribers = []
-    this.dispatch = this._dispatch.bind(this)
     this.dispatch({type: ActionTypes.INIT})
   }
 
-  _dispatch (action) {
+  /**
+   * Dispatch the action
+   * @param {Object} action A plain object representing “what changed”.
+   * @returns {Object} we need to return action as convenience.
+   * Thus we can chain the middleware by passing action or something
+   * @private
+   */
+  dispatch (action) {
     if (!isObject(action) || !isString(action.type)) {
       throw new Error('action should be an object with "type" filed as string')
     }
@@ -23,6 +29,8 @@ export default class Store {
     this
       .subscribers
       .forEach(subscriber => subscriber())
+
+    return action
   }
 
   subscribe (subscriber) {

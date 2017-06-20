@@ -20,35 +20,16 @@ class DeviceView extends View {
   constructor (options) {
     super(options);
     this.store = options.store;
+    this.props = this.store.getState();
     this.shallowCompare = options.shallowCompare;
-
     // connect to store
-    function mapStateToProps (state) {
-      return {devices: state.devices, favorites: state.favorites}
-    }
-
-    function mapDispatchToProps (dispatch) {
-      return {
-        actions: {
-          addFavorite: payload => dispatch({type: 'addFavorite', payload}),
-          deleteFavorite: payload => dispatch({type: 'deleteFavorite', payload})
-        }
-      }
-    }
-
-    // initial props
-    this.props = mapStateToProps(this.store.getState());
-
-    this.store.subscribe(mapStateToProps, mapDispatchToProps)(this.updateView.bind(this));
+    this.store.subscribe(this.updateView.bind(this));
   }
 
-  updateView (props) {
-    if (this.shallowCompare(this.props, props)) {
-      this.props = props;
-      this.render();
-    }
-
+  updateView () {
+    const props = this.store.getState();
     this.props = props;
+    this.render();
   }
 
   template () {
@@ -66,18 +47,17 @@ class DeviceView extends View {
     super.render();
 
     this._clickListener = this._clickListener || function (e) {
-        if (e.target && e.target.nodeName == 'BUTTON') {
-          const deviceId = e.target.getAttribute('attr-deviceId');
+      if (e.target && e.target.nodeName === 'BUTTON') {
+        const deviceId = e.target.getAttribute('attr-deviceId');
 
-          const isLiked = me.props.favorites.indexOf(deviceId) > -1;
-          if (isLiked) {
-            me.props.actions.deleteFavorite({favoriteId: deviceId});
-          } else {
-            me.props.actions.addFavorite({favoriteId: deviceId});
-          }
-
+        const isLiked = me.props.favorites.indexOf(deviceId) > -1;
+        if (isLiked) {
+          me.store.dispatch({type: 'deleteFavorite', payload: {favoriteId: deviceId}});
+        } else {
+          me.store.dispatch({type: 'addFavorite', payload: {favoriteId: deviceId}});
         }
-      };
+      }
+    };
 
     this.$el.removeEventListener('click', this._clickListener);
     this.$el.addEventListener('click', this._clickListener);
@@ -88,31 +68,22 @@ class FavoritesView extends View {
   constructor (options) {
     super(options);
     this.store = options.store;
+    this.props = this.store.getState();
     this.shallowCompare = options.shallowCompare;
 
-    function mapStateToProps (state) {
-      return {favorites: state.favorites}
-    }
-
-    this.props = mapStateToProps(this.store.getState());
-
-    this.store.subscribe(mapStateToProps)(this.updateView.bind(this));
+    this.store.subscribe(this.updateView.bind(this));
   }
 
-  updateView (props) {
-    if (this.shallowCompare(this.props, props)) {
-      this.props = props;
-      this.render();
-    }
-
+  updateView () {
+    const props = this.store.getState();
     this.props = props;
+    this.render();
   }
 
   template () {
     const props = this.props;
 
     return `<p>You liked ${props.favorites.length} device(s)</p>`
-
   }
 }
 
@@ -155,6 +126,8 @@ const store = new Store(combineReducers({
   devices: deviceReducer,
   favorites: favoriteReducer
 }));
+
+window.store = store;
 
 const deviceView = new DeviceView({
   $el: document.querySelector('.header'),

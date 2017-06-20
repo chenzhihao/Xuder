@@ -41,6 +41,8 @@ const store = new Store(combineReducers({
   favorites: favoriteReducer
 }))
 
+window.store = store
+
 const deviceView = new DeviceView({
   $el: document.querySelector('.header'),
   store,
