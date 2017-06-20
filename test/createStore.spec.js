@@ -43,6 +43,28 @@ test('create store without enhancer, but with initial state', t => {
   t.deepEqual(store.getState(), {animal: 'wow', fruit: 'ahaha'})
 })
 
+test('create store with enhancer, but without initial state', t => {
+  let actionCalled = 0
+
+  const dispatchCountEnhance = function (createStore) {
+    return function (reducer, preloadedState) {
+      let store = createStore(reducer, preloadedState)
+      let dispatch = store.dispatch.bind(store)
+      store.dispatch = function (action) {
+        actionCalled = actionCalled + 1
+        dispatch(action)
+      }
+      return store
+    }
+  }
+
+  const store = createStore(reducer, dispatchCountEnhance)
+  t.deepEqual(store.getState(), {animal: '', fruit: ''})
+  store.dispatch({type: 'apple'})
+  t.is(store.getState().fruit, 'apple')
+  t.is(actionCalled, 1)
+})
+
 test('create store with enhancer and initial state', t => {
   let actionCalled = 0
 
