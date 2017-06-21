@@ -41,10 +41,8 @@ const reducer = combineReducer({
 ```
 
 ### Create Store:
-###### todo: middleware mechanism
-
 ```javascript
-  const store = new Store(reducer)
+  const store = new Store(reducer, initialState)
   // Store will get the initial state from reducers
   //{fruit: 'cherry', animal: 'donkey'})
   store.getState()
