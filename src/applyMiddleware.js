@@ -12,6 +12,10 @@ export default function applyMiddleware (...middlewares) {
     // each middleware is like store=> dispatch => action => {...}
     let middlewareChains = middlewares.map(middleware => middleware(middlewareAPI))
     dispatch = compose(...middlewareChains)(store.dispatch)
-    return Object.assign(store, {dispatch})
+
+    // The Object.assign() method only copies enumerable and own properties
+    // from a source object to a target object.
+    // because getState is in Store.prototype, Object.assign need a explicit way to do copy
+    return Object.assign({}, store, {dispatch, getState: store.getState})
   }
 }
