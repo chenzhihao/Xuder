@@ -1,23 +1,17 @@
 import {compose} from './utils'
 
 export default function applyMiddleware (...middlewares) {
-  return (createStore) => (reducer, preloadedState, enhancer) => {
-    const store = createStore(reducer, preloadedState, enhancer)
+  return (createStore) => (reducer, preloadedState) => {
+    const store = createStore(reducer, preloadedState)
     let dispatch = store.dispatch
-    let chain = []
-
     const middlewareAPI = {
-      getState: store.getState,
+      getState: store.getState.bind(store),
       dispatch: (action) => dispatch(action)
     }
 
     // each middleware is like store=> dispatch => action => {...}
-    chain = middlewares.map(middleware => middleware(middlewareAPI))
-    dispatch = compose(...chain)(store.dispatch)
-
-    return {
-      ...store,
-      dispatch
-    }
+    let middlewareChains = middlewares.map(middleware => middleware(middlewareAPI))
+    dispatch = compose(...middlewareChains)(store.dispatch)
+    return Object.assign(store, {dispatch})
   }
 }
