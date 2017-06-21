@@ -9,6 +9,7 @@ export default class Store {
     this.reducer = reducer
     this.state = initialState
     this.subscribers = []
+    this.dispatch = this._dispatch.bind(this)
     this.dispatch({type: ActionTypes.INIT})
   }
 
@@ -19,7 +20,7 @@ export default class Store {
    * Thus we can chain the middleware by passing action or something
    * @private
    */
-  dispatch (action) {
+  _dispatch (action) {
     if (!isObject(action) || !isString(action.type)) {
       throw new Error('action should be an object with "type" filed as string')
     }
