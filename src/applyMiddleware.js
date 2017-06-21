@@ -5,7 +5,7 @@ export default function applyMiddleware (...middlewares) {
     const store = createStore(reducer, preloadedState)
     let dispatch = store.dispatch
     const middlewareAPI = {
-      getState: store.getState,
+      getState: store.getState.bind(store),
       dispatch: (action) => dispatch(action)
     }
 

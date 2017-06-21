@@ -63,6 +63,7 @@ test('applyMiddleware test thunk', t => {
   const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddlware))
 
   store.dispatch(function (dispatch, getState) {
+    t.is(getState().animal, '')
     dispatch({type: 'dog'})
   })
 
