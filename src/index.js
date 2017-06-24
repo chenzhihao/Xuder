@@ -1,5 +1,6 @@
 import combineReducers from './combineReducers'
-import Store from './Store'
 import {shallowCompare} from './utils'
+import createStore from './createStore'
+import applyMiddleware from './applyMiddleware'
 
-export {Store, combineReducers, shallowCompare}
+export {combineReducers, shallowCompare, createStore, applyMiddleware}
