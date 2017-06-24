@@ -6,8 +6,15 @@ Build on the simplicity of Redux. A predicable state container.
 
 ## Usage
 
+### Installation
+```
+$ npm install xuder
+```
+
 ### Build Reducers is as same as the Redux usage:
 ```javascript
+import {combineReducer} from 'xuder'
+
 const fruitReducer = function (state = 'cherry', action) {
   switch (action.type) {
     case 'apple': {
@@ -40,31 +47,49 @@ const reducer = combineReducer({
 })
 ```
 
-### Create Store:
+### Create Store
 ```javascript
-  const store = new Store(reducer, initialState)
-  // Store will get the initial state from reducers
-  //{fruit: 'cherry', animal: 'donkey'})
-  store.getState()
+import {createStore} from 'xuder'
+const store = createStore(reducer)
+// or
+const store = createStore(reducer, initialState)
+// or
+const store = createStore(reducer, enhancer)
+// or
+const store = createStore(reducer, initialState, enhancer)
+
+```
+
+### Middleware Mechanism
+```javascript
+import {applyMiddleware} from 'xuder'
+const middlewareFirst = store => dispatch => action => {
+  //...
+}
+const middlewareNext = store => dispatch => action => {
+  //...
+}
+
+const enhancer = applyMiddleware(middlewareNext, middlewareFirst)
 ```
 
 
 ### How to subscribe a Store:
 
 ```javascript
-  const unsubscribe = store.subscribe(function () {
-    ...
-  })
+const unsubscribe = store.subscribe(function () {
+//    ...
+})
   
   
-  // A simple Example:
+// A simple Example:
 
-  function listener () {
-    console.log(store.getState().animal)
-  }
+function listener () {
+console.log(store.getState().animal)
+}
 
-  store.subscribe(listener)
-  store.dispatch({type: 'dog'})
-  
-  // will console.log('dog')
+store.subscribe(listener)
+store.dispatch({type: 'dog'})
+
+// will console.log('dog')
 ```
