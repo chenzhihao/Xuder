@@ -1,7 +1,7 @@
 import DeviceView from './DeviceView'
 import FavoritesView from './FavoritesView'
 
-const {Store, combineReducers, shallowCompare} = window.xuder
+const {createStore, combineReducers, shallowCompare} = window.xuder
 
 const deviceReducer = function (state = [], action) {
   switch (action.type) {
@@ -22,7 +22,7 @@ const favoriteReducer = function (state = [], action) {
   switch (action.type) {
     case 'addFavorite': {
       const newState = state.concat(action.payload.favoriteId).filter(function (id, index, me) {
-        return index == me.indexOf(id);
+        return index == me.indexOf(id)
       })
 
       return newState
@@ -36,7 +36,7 @@ const favoriteReducer = function (state = [], action) {
   }
 }
 
-const store = new Store(combineReducers({
+const store = createStore(combineReducers({
   devices: deviceReducer,
   favorites: favoriteReducer
 }))
