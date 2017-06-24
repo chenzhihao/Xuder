@@ -55,10 +55,10 @@ test('applyMiddleware test thunk', t => {
 
   const thunkMiddleware = ({dispatch, getState}) => next => action => {
     if (typeof action === 'function') {
-      return action(dispatch, getState);
+      return action(dispatch, getState)
     }
 
-    return next(action);
+    return next(action)
   }
   const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddlware))
 
