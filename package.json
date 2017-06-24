@@ -7,7 +7,7 @@
     "node": ">= 6"
   },
   "scripts": {
-    "lint": "standard --fix",
+    "lint": "standard --fix src",
     "test": "ava --tap",
     "watch": "ava --tap -watch",
     "cover": "nyc npm run test",
