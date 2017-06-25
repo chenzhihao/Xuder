@@ -1,20 +1,33 @@
 {
-  "plugins": [
-    [
-      "transform-runtime",
-      {
-        "polyfill": false
-      }
-    ]
-  ],
-  "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "node": "current"
-        }
-      }
-    ]
-  ]
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    },
+    "build": {
+      "plugins": [
+      ],
+      "presets": [
+        [
+          "env",
+          {
+            "modules": false,
+            "targets": {
+              "browsers": [
+                "last 2 versions"
+              ]
+            }
+          }
+        ]
+      ]
+    }
+  }
 }

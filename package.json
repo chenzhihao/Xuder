@@ -8,11 +8,11 @@
   },
   "scripts": {
     "lint": "standard --fix src",
-    "test": "ava --tap",
-    "watch": "ava --tap -watch",
-    "cover": "nyc npm run test",
-    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
-    "build": "rollup  --sourcemap --input ./src/index.js --format umd --name 'xuder' --output ./build/xuder.js",
+    "test": "BABEL_ENV=test ava --tap",
+    "watch": "BABEL_ENV=test ava --tap -watch",
+    "cover": "BABEL_ENV=test nyc npm run test",
+    "report-coverage": "BABEL_ENV=test nyc report --reporter=lcov > coverage.lcov && codecov",
+    "build": "rollup -c",
     "build-example": "rollup  --sourcemap --input ./example/src/index.js --format iife --output  ./example/build/dist.js"
   },
   "repository": {
@@ -39,6 +39,7 @@
     "codecov": "^2.2.0",
     "nyc": "^11.0.2",
     "rollup": "^0.42.0",
+    "rollup-plugin-babel": "^2.7.1",
     "rollup-watch": "^4.0.0",
     "standard": "^10.0.2"
   },
