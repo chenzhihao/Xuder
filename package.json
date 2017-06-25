@@ -1,8 +1,8 @@
 {
   "name": "xuder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build on the simplicity of Redux. A predicable state container.",
-  "main": "index.js",
+  "main": "build/xuder.js",
   "engines": {
     "node": ">= 6"
   },
