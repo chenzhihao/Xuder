@@ -2,13 +2,21 @@
 [![codecov](https://codecov.io/gh/chenzhihao/Xuder/branch/master/graph/badge.svg)](https://codecov.io/gh/chenzhihao/Xuder)
 
 # Xuder
-Build on the simplicity of Redux. A predicable state container.
+A reasonable approximation of Redux from scratch.
 
 ## Usage
 
 ### Installation
 ```
 $ npm install xuder
+```
+Or put the <i>build/xuder.js</i> file in html \<script> directly
+
+
+### APIs:
+Its API is as same as Redux.
+```javascript
+import {combineReducers, shallowCompare, createStore, applyMiddleware} from 'xuder'
 ```
 
 ### Build Reducers is as same as the Redux usage:
