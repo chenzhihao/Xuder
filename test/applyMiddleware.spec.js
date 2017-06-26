@@ -34,7 +34,7 @@ const reducer = combineReducer({
   animal: animalReducer
 })
 
-test.only('applyMiddleware will wrapper dispatch', t => {
+test('applyMiddleware will wrapper dispatch', t => {
   let stubCalledTime = 0
   const store = createStore(reducer, applyMiddleware(store => dispatch => action => {
     stubCalledTime++
@@ -54,7 +54,7 @@ test.only('applyMiddleware will wrapper dispatch', t => {
 
 test('applyMiddleware test thunk', t => {
   let stubCalledTime = 0
-  const actionCountingMiddlware = store => dispatch => action => {
+  const actionCountingMiddleware = store => dispatch => action => {
     stubCalledTime++
     dispatch(action)
   }
@@ -66,7 +66,7 @@ test('applyMiddleware test thunk', t => {
 
     return next(action)
   }
-  const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddlware))
+  const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddleware))
 
   store.dispatch(function (dispatch, getState) {
     t.is(getState().animal, '')
