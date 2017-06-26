@@ -10,16 +10,16 @@ A reasonable approximation of Redux from scratch.
 ```
 $ npm install xuder
 ```
-Or put the <i>build/xuder.js</i> file in html \<script> directly
+Or put the <i>build/xuder.js</i> file in html \<script> directly.
 
 
-### APIs:
+### APIs
 Its API is as same as Redux.
 ```javascript
 import {combineReducers, shallowCompare, createStore, applyMiddleware} from 'xuder'
 ```
 
-### Build Reducers is as same as the Redux usage:
+### Build Reducers is as same as the Redux usage
 ```javascript
 import {combineReducer} from 'xuder'
 
@@ -82,7 +82,7 @@ const enhancer = applyMiddleware(middlewareNext, middlewareFirst)
 ```
 
 
-### How to subscribe a Store:
+### How to subscribe a Store
 
 ```javascript
 const unsubscribe = store.subscribe(function () {
