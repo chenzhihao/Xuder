@@ -1,11 +1,17 @@
 export default function combineReducers (reducersMap) {
-  return function (rootState = {}, action) {
+  return function (initialState = {}, action) {
+    const newState = {}
+    let isChanged = false
     for (let key in reducersMap) {
       let subReducer = reducersMap[key]
-      let subState = rootState[key]
-      rootState[key] = subReducer(subState, action)
-    }
+      let currentSubState = initialState[key]
+      const newSubState = subReducer(currentSubState, action)
+      newState[key] = newSubState
 
-    return rootState
+      if (currentSubState !== newSubState) {
+        isChanged = true
+      }
+    }
+    return isChanged ? newState : initialState
   }
 }

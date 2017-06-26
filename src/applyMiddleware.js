@@ -16,6 +16,6 @@ export default function applyMiddleware (...middlewares) {
     // The Object.assign() method only copies enumerable and own properties
     // from a source object to a target object.
     // because getState is in Store.prototype, Object.assign need a explicit way to do copy
-    return Object.assign({}, store, {dispatch, getState: store.getState})
+    return Object.assign({}, store, {dispatch, getState: store.getState.bind(store)})
   }
 }

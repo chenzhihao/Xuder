@@ -39,16 +39,22 @@ test('applyMiddleware will wrapper dispatch', t => {
   const store = createStore(reducer, applyMiddleware(store => dispatch => action => {
     stubCalledTime++
     dispatch(action)
+    console.log('in middlware', store.getState())
   }))
 
+  console.log('initalization end')
+  console.log(store.state)
   store.dispatch({type: 'dog'})
+  console.log(store.state)
+
   t.is(stubCalledTime, 1)
+  console.log('store.state from test', store.getState())
   t.is(store.getState().animal, 'dog')
 })
 
 test('applyMiddleware test thunk', t => {
   let stubCalledTime = 0
-  const actionCountingMiddlware = store => dispatch => action => {
+  const actionCountingMiddleware = store => dispatch => action => {
     stubCalledTime++
     dispatch(action)
   }
@@ -60,7 +66,7 @@ test('applyMiddleware test thunk', t => {
 
     return next(action)
   }
-  const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddlware))
+  const store = createStore(reducer, applyMiddleware(thunkMiddleware, actionCountingMiddleware))
 
   store.dispatch(function (dispatch, getState) {
     t.is(getState().animal, '')
