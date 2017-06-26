@@ -26,7 +26,7 @@ export default class Store {
     }
 
     this.state = this.reducer(this.state, action)
-
+    console.log('store.state',this.state)
     this
       .subscribers
       .forEach(subscriber => subscriber())

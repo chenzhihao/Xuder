@@ -34,15 +34,21 @@ const reducer = combineReducer({
   animal: animalReducer
 })
 
-test('applyMiddleware will wrapper dispatch', t => {
+test.only('applyMiddleware will wrapper dispatch', t => {
   let stubCalledTime = 0
   const store = createStore(reducer, applyMiddleware(store => dispatch => action => {
     stubCalledTime++
     dispatch(action)
+    console.log('in middlware', store.getState())
   }))
 
+  console.log('initalization end')
+  console.log(store.state)
   store.dispatch({type: 'dog'})
+  console.log(store.state)
+
   t.is(stubCalledTime, 1)
+  console.log('store.state from test', store.getState())
   t.is(store.getState().animal, 'dog')
 })
 

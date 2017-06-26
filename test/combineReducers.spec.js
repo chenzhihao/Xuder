@@ -64,3 +64,50 @@ test('nested reducer combination, ignore action', t => {
     }
   })
 })
+
+test('if one state of reducer is changed, all its parent state should be changed to another reference', t => {
+  const fruitReducer = function (state = '', action) {
+    switch (action.type) {
+      case 'apple': {
+        return 'apple'
+      }
+      case 'banana': {
+        return 'banana'
+      }
+      default:
+        return state
+    }
+  }
+
+  const animalReducer = function (state = '', action) {
+    switch (action.type) {
+      case 'dog': {
+        return 'dog'
+      }
+      case 'cat': {
+        return 'cat'
+      }
+      default:
+        return state
+    }
+  }
+
+  const reducer = combineReducers({
+    combine: combineReducers({
+      fruit: fruitReducer,
+      animal: animalReducer
+    }),
+    animal: animalReducer
+  })
+
+  let initialState = {}
+  const state = reducer(initialState, {type: '###'})
+  const state2 = reducer(state, {type: '@@@'})
+  const state3 = reducer(state2, {type: 'apple'})
+
+  t.true(state.combine === state2.combine)
+  t.true(state === state2)
+
+  t.false(state2 === state3)
+  t.false(state2.combine === state3.combine)
+})
