@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/chenzhihao/Xuder.svg?branch=master)](https://travis-ci.org/chenzhihao/Xuder)
 [![codecov](https://codecov.io/gh/chenzhihao/Xuder/branch/master/graph/badge.svg)](https://codecov.io/gh/chenzhihao/Xuder)
+[![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard) 
 
 # Xuder
 A reasonable approximation of Redux from scratch.
